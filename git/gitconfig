@@ -1,0 +1,11 @@
+[user]
+    email = hktkzyx@yeah.net
+    name = hktkzyx
+[init]
+    defaultBranch = main
+[gitflow "prefix"]
+    versiontag = v
+[gitflow "branch"]
+	master = main
+[include]
+    path = .gitconfig_gpg
