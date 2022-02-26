@@ -8,4 +8,6 @@
 [gitflow "branch"]
 	master = main
 [include]
-    path = .gitconfig_gpg
+    path = gpg.gitconfig
+    path = editor_vim.gitconfig
+    path = editor_vscode.gitconfig
