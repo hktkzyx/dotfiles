@@ -103,6 +103,7 @@ zsh_setup() {
         read -p "Install/reinstall oh-my-zsh? [y/n]:" -n 1 option
         if [[ "${option,,}" == "y" ]]; then
             if [[ -d "${ZSH:-${HOME}/.oh-my-zsh}" ]]; then
+                echo "Remove ${ZSH:-${HOME}/.oh-my-zsh}"
                 rm -rf "${ZSH:-${HOME}/.oh-my-zsh}"
             fi
             ZSH="${XDG_DATA_HOME}/oh-my-zsh"
