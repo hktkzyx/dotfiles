@@ -7,7 +7,6 @@ err() {
 }
 
 # Return whether a command is installed or not
-# $1 command
 is_executable() {
     command -v "$@" &>/dev/null
 }
@@ -32,7 +31,7 @@ cp_ln_action() {
     fi
 }
 
-# XDG base directory
+# Enable XDG base directory
 xdg_base_directory_setup() {
     if [[ -z "${XDG_CONFIG_HOME}" ]]; then
         mkdir -p "${HOME}/.config"
