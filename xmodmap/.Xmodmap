@@ -1,0 +1,9 @@
+keycode 66 = Mode_switch Caps_Lock
+keysym h = h H Left
+keysym j = j J Down
+keysym k = k K Up
+keysym l = l L Right
+keysym p = p P Home
+keysym semicolon = semicolon colon End
+keysym n = n N Prior
+keysym m = m M Next
