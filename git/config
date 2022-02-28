@@ -7,7 +7,3 @@
     versiontag = v
 [gitflow "branch"]
 	master = main
-[include]
-    path = gpg.gitconfig
-    path = editor_vim.gitconfig
-    path = editor_vscode.gitconfig
