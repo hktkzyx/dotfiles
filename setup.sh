@@ -105,7 +105,7 @@ zsh_setup() {
             if [[ -d "${ZSH:-${HOME}/.oh-my-zsh}" ]]; then
                 rm -rf "${ZSH:-${HOME}/.oh-my-zsh}"
             fi
-            ZSH="${XDG_CONFIG_HOME}/zsh/oh-my-zsh"
+            ZSH="${XDG_DATA_HOME}/oh-my-zsh"
             ZSH_CUSTOM="${ZSH}/custom"
             sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
             git clone "https://github.com/chrissicool/zsh-256color" "${ZSH_CUSTOM}/plugins/zsh-256color"

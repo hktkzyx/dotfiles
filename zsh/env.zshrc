@@ -22,7 +22,7 @@ if [[ -z "${XDG_CONFIG_DIRS}" ]]; then
 fi
 
 # Zsh
-export ZSH="${XDG_CONFIG_HOME}/zsh/oh-my-zsh"
+export ZSH="${XDG_DATA_HOME}/oh-my-zsh"
 
 # User defined
 export MANPATH="/usr/local/man:${MANPATH}"
