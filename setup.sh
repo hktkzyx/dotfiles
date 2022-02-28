@@ -56,7 +56,7 @@ xdg_base_directory_setup() {
 git_setup() {
     if is_executable "git"; then
         mkdir -p "${XDG_CONFIG_HOME}/git"
-        cp_ln_action "${XDG_CONFIG_HOME}/git/config" "ln -sv ${PWD}/git/config ${XDG_CONFIG_HOME}/git"
+        cp_ln_action "${XDG_CONFIG_HOME}/git/config" "cp ./git/config ${XDG_CONFIG_HOME}/git"
         option="n"
         read -p "Use VSCode instead of Vim as default editor? [y/n]" -n 1 option
         if [[ "${option,,}" == "y" ]]; then
