@@ -1,6 +1,9 @@
 [user]
     email = hktkzyx@yeah.net
     name = hktkzyx
+    signingkey = hktkzyx@yeah.net
+[core]
+    editor = vim
 [init]
     defaultBranch = main
 [gitflow "prefix"]

@@ -1,6 +1,0 @@
-[user]
-    signingkey = hktkzyx@yeah.net
-[commit]
-    gpgsign = true
-[tag]
-    gpgsign = true
