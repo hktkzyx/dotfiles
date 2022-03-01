@@ -131,11 +131,29 @@ zsh_setup() {
     fi
 }
 
+# GnuPG
+gnupg_setup() {
+    option="n"
+    read -p "Setup GnuPG? [y/n]:" -n 1 option && echo
+    if [[ "${option,,}" == "y" ]]; then
+        if is_executable "gpg"; then
+            mkdir -p "${HOME}/.gnupg"
+            cp_ln_action "${HOME}/.gnupg/gpg.conf" "ln -sv ${SCRIPT_DIR}/gnupg/gpg.conf ${HOME}/.gnupg"
+        else
+            err "GnuPG is not installed."
+            exit 1
+        fi
+    fi
+}
+
 main() {
     xdg_base_directory_setup
     git_setup
     ensure_wget_installed
     vim_setup
+    # Optional setup
+    gnupg_setup
+    # Shell setup
     zsh_setup
 }
 
