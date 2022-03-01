@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -o errexit
 set -o pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+
 # Error handler
 err() {
     echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
@@ -18,7 +21,7 @@ cp_ln_action() {
     if [[ -e "$1" || -L "$1" ]]; then
         option="n"
         read -p "$1 exists. Override? (previous file will be backup) [y/n]:" -n 1 option
-        echo "${option}"
+        echo
         if [[ "${option,,}" == "y" ]]; then
             mv "$1" "$1.backup"
             echo "Backup exist file to $1.backup"
@@ -58,6 +61,7 @@ git_setup() {
         cp_ln_action "${XDG_CONFIG_HOME}/git/config" "cp ./git/config ${XDG_CONFIG_HOME}/git"
         option="n"
         read -p "Use VSCode instead of Vim as default editor? [y/n]" -n 1 option
+        echo
         if [[ "${option,,}" == "y" ]]; then
             git config --global core.editor "code --wait"
         fi
@@ -81,9 +85,10 @@ ensure_wget_installed() {
 vim_setup() {
     if is_executable "vim"; then
         mkdir -p "${HOME}/.vim" "${HOME}/.vim/colors"
-        cp_ln_action "${HOME}/.vim/vimrc" "ln -sv ${PWD}/vim/vimrc ${HOME}/.vim"
+        cp_ln_action "${HOME}/.vim/vimrc" "ln -sv ${SCRIPT_DIR}/vim/vimrc ${HOME}/.vim"
         option="n"
         read -p "Update molokai.vim? [y/n]:" -n 1 option
+        echo
         if [[ "${option,,}" == "y" ]]; then
             rm "${HOME}/.vim/colors/molokai.vim" || true
             wget -P "${HOME}/.vim/colors" "https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim"
@@ -101,6 +106,7 @@ zsh_setup() {
         fi
         option="n"
         read -p "Install/reinstall oh-my-zsh? [y/n]:" -n 1 option
+        echo
         if [[ "${option,,}" == "y" ]]; then
             if [[ -d "${ZSH:-${HOME}/.oh-my-zsh}" ]]; then
                 echo "Remove ${ZSH:-${HOME}/.oh-my-zsh}"
@@ -114,9 +120,10 @@ zsh_setup() {
             git clone "https://github.com/zsh-users/zsh-syntax-highlighting.git" "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting"
         fi
         cp_ln_action "${HOME}/.zshrc" "cp ./zsh/.zshrc ${HOME}"
-        cp_ln_action "${XDG_CONFIG_HOME}/zsh/default.zshrc" "ln -sv ${PWD}/zsh/default.zshrc ${XDG_CONFIG_HOME}/zsh"
-        cp_ln_action "${XDG_CONFIG_HOME}/zsh/alias.zshrc" "ln -sv ${PWD}/zsh/alias.zshrc ${XDG_CONFIG_HOME}/zsh"
-        cp_ln_action "${XDG_CONFIG_HOME}/zsh/env.zshrc" "ln -sv ${PWD}/zsh/env.zshrc ${XDG_CONFIG_HOME}/zsh"
+        mkdir -p "${XDG_CONFIG_HOME}/zsh"
+        cp_ln_action "${XDG_CONFIG_HOME}/zsh/default.zshrc" "ln -sv ${SCRIPT_DIR}/zsh/default.zshrc ${XDG_CONFIG_HOME}/zsh"
+        cp_ln_action "${XDG_CONFIG_HOME}/zsh/alias.zshrc" "ln -sv ${SCRIPT_DIR}/zsh/alias.zshrc ${XDG_CONFIG_HOME}/zsh"
+        cp_ln_action "${XDG_CONFIG_HOME}/zsh/env.zshrc" "ln -sv ${SCRIPT_DIR}/zsh/env.zshrc ${XDG_CONFIG_HOME}/zsh"
         exec zsh -l
     else
         err "zsh is not installed"
