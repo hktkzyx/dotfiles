@@ -1,5 +1,5 @@
 # system environment variables
-export PATH="/snap/bin:/usr/local/bin:${HOME}/bin:${HOME}/.local/bin:${HOME}/.poetry/bin:${PATH}"
+export PATH="/snap/bin:/usr/local/bin:${HOME}/bin:${HOME}/.local/bin:${PATH}"
 
 # XDG base directory
 if [[ -z "${XDG_CONFIG_HOME}" ]]; then
