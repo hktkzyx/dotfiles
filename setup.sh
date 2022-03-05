@@ -114,6 +114,7 @@ zsh_setup() {
             fi
             ZSH="${XDG_DATA_HOME}/oh-my-zsh"
             ZSH_CUSTOM="${ZSH}/custom"
+            ZSH_COMPDUMP="${ZSH_CACHE_DIR:-${ZSH}/cache}/.zcompdump"
             sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
             git clone "https://github.com/chrissicool/zsh-256color" "${ZSH_CUSTOM}/plugins/zsh-256color"
             git clone "https://github.com/zsh-users/zsh-autosuggestions" "${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
