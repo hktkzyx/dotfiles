@@ -9,4 +9,6 @@
 [gitflow "prefix"]
     versiontag = v
 [gitflow "branch"]
-	master = main
+    master = main
+[pull]
+    rebase = true
