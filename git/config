@@ -12,3 +12,5 @@
     master = main
 [pull]
     rebase = true
+[merge]
+	ff = false
