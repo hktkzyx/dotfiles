@@ -1,1 +1,10 @@
 .vscode/
+
+# Generated files
+git/config
+
+# Local machine-specific files (never commit)
+*.local.*
+!*.local.*.example
+.env
+*.secret

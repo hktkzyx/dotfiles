@@ -1,7 +1,7 @@
 [user]
-    email = hktkzyx@yeah.net
-    name = Brooks YUAN
-    signingkey = hktkzyx@yeah.net
+    email = __GIT_USER_EMAIL__
+    name = __GIT_USER_NAME__
+    signingkey = __GIT_SIGNING_KEY__
 [core]
     editor = vim
 [init]

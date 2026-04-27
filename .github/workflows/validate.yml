@@ -1,0 +1,88 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck on all scripts
+        run: shellcheck setup.sh modules/*.sh
+
+  syntax-check:
+    name: Bash Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check bash syntax
+        run: |
+          for f in setup.sh modules/*.sh; do
+            echo "Checking: $f"
+            bash -n "$f"
+          done
+
+  secrets-scan:
+    name: Secrets Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for hardcoded secrets
+        run: |
+          echo "Scanning for potential secrets..."
+          PATTERNS='(API_KEY|SECRET|PASSWORD|TOKEN)=["'"'"'][^"'"'"']{8,}'
+          if grep -rEn "$PATTERNS" --include='*.sh' --include='*.zshrc' --include='config' .; then
+            echo "::error::Potential secrets found in tracked files!"
+            exit 1
+          fi
+          echo "No secrets detected."
+
+      - name: Verify git config is template only
+        run: |
+          if [[ -f git/config ]]; then
+            echo "::error::git/config should not be committed (only git/config.template)"
+            exit 1
+          fi
+          if grep -q '__GIT_USER_NAME__' git/config.template; then
+            echo "Template placeholders intact."
+          else
+            echo "::error::git/config.template is missing placeholders"
+            exit 1
+          fi
+
+  dry-run:
+    name: Dry Run (Docker)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test non-interactive setup in container
+        run: |
+          docker run --rm \
+            -v "$PWD:/dotfiles" \
+            -e GIT_USER_NAME="Test User" \
+            -e GIT_USER_EMAIL="test@example.com" \
+            ubuntu:24.04 \
+            bash -c "
+              apt-get update -qq && apt-get install -y -qq sudo wget git
+              useradd -m -s /bin/bash testuser
+              echo 'testuser ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/testuser
+              su - testuser -c '
+                export GIT_USER_NAME=\"Test User\"
+                export GIT_USER_EMAIL=\"test@example.com\"
+                cp -r /dotfiles ~/.dotfiles
+                cd ~/.dotfiles
+                ./setup.sh --all --non-interactive
+              '
+            "
